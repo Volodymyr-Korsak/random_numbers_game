@@ -2,7 +2,7 @@ import random
 import argparse
 
 
-pop = 1  # счетчик неверных вводов
+pop = 0+1  # счетчик неверных вводов
 all_games = 0  # счетчик всех сыграных игр
 win_games = 0  # счетчик побед в игре
 key_for_exit = "exit"  # слово для выхода с програмы
