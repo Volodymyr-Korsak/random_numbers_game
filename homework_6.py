@@ -2,7 +2,6 @@ import random
 import argparse
 
 
-pop = 0+1  # счетчик неверных вводов
 all_games = 0  # счетчик всех сыграных игр
 win_games = 0  # счетчик побед в игре
 key_for_exit = "exit"  # слово для выхода с програмы
@@ -28,25 +27,16 @@ def random_numbers():
 def chek_numbers(num_user, num_pas):
     '''Функция проверки числа на - угаданое
         :win_games - чисел угаданое
-        :all_games - чисел введено загаданом диапазоне
-        :pop - ошибочних вводов'''
+        :all_games - чисел введено загаданом диапазоне'''
 
-    global win_games,pop,all_games
+    num_user = int(num_user)
     if num_user == num_pas:
         print("\nВуаля, УГАДАЛ!!!")
-        win_games += 1
-    elif num_pas > num_user and num_user > rand_num_range_from:
-        print(f"Число меньше загаданого! =( ,загадоное чисто : {num_pas}")
-        all_games += 1
-        pop += 1
-    elif num_pas < num_user and num_user < rand_num_range_to+1:
-        print(f"Число больше загаданого! =( ,загадоное чисто : {num_pas}")
-        all_games += 1
-        pop += 1
 
 
 
-def chek_eror():
+
+def chek_eror(num_user):
     '''Функция проверяет правильность ввода пользоватилемпроверки  числа на:
                - введен ли в строку ввода число а не дргие символы
                - введено ли число в диапазоне от 1 до 6
@@ -54,23 +44,25 @@ def chek_eror():
                    True  - есть ошибка ввода
                    False - ошыбок нет'''
 
-    global pop, num_user, all_games
     try:
         num_user = int(num_user)
 
     except ValueError:
         print("\nневерно!".upper())
-        print(f"Количество неверных вводов - {pop}\n")
+        print("Вы ввели не числовое значение")
         print(f"Для вихода введите :{key_for_exit}")
-        print("чтобы попробовать снова")
-        pop += 1
+        print("\nЧтобы попробовать снова")
         return True
     else:
         if num_user < rand_num_range_from or num_user > rand_num_range_to:
             print(f'Ваше число : {num_user} вне диапазона от '
                   f'{rand_num_range_from} до {rand_num_range_to}')
-            pop += 1
-            all_games += 1
+            return True
+        elif num_pas > num_user and num_user > rand_num_range_from:
+            print(f"Число меньше загаданого! =( ,загадоное чисто : {num_pas}")
+            return True
+        elif num_pas < num_user and num_user < rand_num_range_to + 1:
+            print(f"Число больше загаданого! =( ,загадоное чисто : {num_pas}")
             return True
 
 
@@ -81,10 +73,12 @@ while True:
     if num_user.lower() == key_for_exit:
         print(f",\nИгр сыграно - {all_games}\n"
               f"Чисел угодано - {win_games}\n"
-              f"неверных вводов  - {pop}\n!!! GAME OWER !!!")
+              f"!!!!!!GAME OWER!!!!!!")
         break
-    if chek_eror():
+    if chek_eror(num_user):
+        all_games += 1
         continue
     chek_numbers(num_user, num_pas)
+    win_games += 1
     print(f"\nДля вихода введите :{key_for_exit}")
     print("чтобы попробовать снова")
